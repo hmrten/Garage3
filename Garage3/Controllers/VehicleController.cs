@@ -12,6 +12,11 @@ namespace Garage3.Controllers
     {
         private GarageContext db = new GarageContext();
 
+        // A couple helper projection functions for the Json serializer which
+        // cannot deal with circular depdencies between models.
+        // So we project them manually, which also serves as having
+        // better control over the json object field names
+
         private Func<Vehicle, object> VehicleSelector = v => new
         {
             v_id = v.Id,
@@ -26,7 +31,6 @@ namespace Garage3.Controllers
         {
             o_id = o.Id,
             o_name = o.Name,
-            //vehicles = o.Vehicles.Select(v => new { reg = v.RegNr, type = v.Type.Name })
         };
 
         private Func<VehicleType, object> VehicleTypeSelector = t => new
@@ -40,33 +44,36 @@ namespace Garage3.Controllers
             return View();
         }
 
-        public ActionResult Vehicles()
+        public ActionResult Vehicles(int? id)
         {
-            var vs = db.Vehicles.Select(VehicleSelector);
+            var q = db.Vehicles.AsQueryable();
+            if (id != null)
+                q = q.Where(v => v.Id == id);
+            var vs = q.Select(VehicleSelector);
             return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Owners()
+        public ActionResult Owners(int? id)
         {
-            var os = db.Owners.Select(OwnerSelector);
+            var q = db.Owners.AsQueryable();
+            if (id != null)
+                q = q.Where(o => o.Id == id);
+            var os = q.Select(OwnerSelector);
             return Json(os.ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Types()
+        public ActionResult Types(int? id)
         {
-            var ts = db.VehicleTypes.Select(VehicleTypeSelector);
+            var q = db.VehicleTypes.AsQueryable();
+            if (id != null)
+                q = q.Where(t => t.Id == id);
+            var ts = q.Select(VehicleTypeSelector);
             return Json(ts.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ByType(int id)
         {
             var vs = db.Vehicles.Where(v => v.VehicleTypeId == id).Select(VehicleSelector);
-            return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult ByOwner(int id)
-        {
-            var vs = db.Vehicles.Where(v => v.OwnerId == id).Select(VehicleSelector);
             return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
         }
     }

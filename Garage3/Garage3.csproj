@@ -105,18 +105,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\GarageController.cs" />
     <Compile Include="Controllers\VehicleController.cs" />
     <Compile Include="DataAccess\GarageContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201602251156483_v1.cs" />
-    <Compile Include="Migrations\201602251156483_v1.Designer.cs">
-      <DependentUpon>201602251156483_v1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602251232549_v2.cs" />
-    <Compile Include="Migrations\201602251232549_v2.Designer.cs">
-      <DependentUpon>201602251232549_v2.cs</DependentUpon>
+    <Compile Include="Migrations\201602251249199_initial.cs" />
+    <Compile Include="Migrations\201602251249199_initial.Designer.cs">
+      <DependentUpon>201602251249199_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Owner.cs" />
@@ -145,13 +142,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Garage\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201602251156483_v1.resx">
-      <DependentUpon>201602251156483_v1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602251232549_v2.resx">
-      <DependentUpon>201602251232549_v2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602251249199_initial.resx">
+      <DependentUpon>201602251249199_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

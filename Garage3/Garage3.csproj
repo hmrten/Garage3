@@ -114,8 +114,14 @@
     <Compile Include="Migrations\201602251156483_v1.Designer.cs">
       <DependentUpon>201602251156483_v1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602251232549_v2.cs" />
+    <Compile Include="Migrations\201602251232549_v2.Designer.cs">
+      <DependentUpon>201602251232549_v2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Owner.cs" />
+    <Compile Include="Models\Parking.cs" />
+    <Compile Include="Models\ParkingSlot.cs" />
     <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Models\VehicleType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -143,6 +149,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201602251156483_v1.resx">
       <DependentUpon>201602251156483_v1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602251232549_v2.resx">
+      <DependentUpon>201602251232549_v2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

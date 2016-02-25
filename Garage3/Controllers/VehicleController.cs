@@ -44,7 +44,7 @@ namespace Garage3.Controllers
             return View();
         }
 
-        public ActionResult Vehicles(int? id)
+        public ActionResult List(int? id)
         {
             var q = db.Vehicles.AsQueryable();
             if (id != null)
@@ -69,6 +69,14 @@ namespace Garage3.Controllers
                 q = q.Where(t => t.Id == id);
             var ts = q.Select(VehicleTypeSelector);
             return Json(ts.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ByRegNr(string id)
+        {
+            var vs = db.Vehicles
+                .Where(v => String.Compare(v.RegNr, id, true) == 0)
+                .Select(VehicleSelector);
+            return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ByType(int id)

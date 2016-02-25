@@ -52,20 +52,37 @@ namespace Garage3.DataAccess
 
             SaveChanges();
 
-            Vehicles.AddOrUpdate(v => v.RegNr,
+            Vehicles.AddOrUpdate(v => v.Id,
                 new[] {
                 new Vehicle { Id = 1, OwnerId = 1, RegNr = "AAA111", VehicleTypeId = 1 },
-                new Vehicle { Id = 1, OwnerId = 1, RegNr = "AAA222", VehicleTypeId = 1 },
-                new Vehicle { Id = 1, OwnerId = 1, RegNr = "AAA333", VehicleTypeId = 1 },
-                new Vehicle { Id = 2, OwnerId = 1, RegNr = "BBB222", VehicleTypeId = 2 },
-                new Vehicle { Id = 2, OwnerId = 2, RegNr = "BBB333", VehicleTypeId = 2 },
-                new Vehicle { Id = 3, OwnerId = 2, RegNr = "CCC333", VehicleTypeId = 3 },
-                new Vehicle { Id = 3, OwnerId = 2, RegNr = "CCC444", VehicleTypeId = 3 },
-                new Vehicle { Id = 4, OwnerId = 3, RegNr = "DDD444", VehicleTypeId = 4 },
-                new Vehicle { Id = 4, OwnerId = 3, RegNr = "DDD555", VehicleTypeId = 4 }
+                new Vehicle { Id = 2, OwnerId = 1, RegNr = "AAA222", VehicleTypeId = 1 },
+                new Vehicle { Id = 3, OwnerId = 1, RegNr = "AAA333", VehicleTypeId = 1 },
+                new Vehicle { Id = 4, OwnerId = 1, RegNr = "BBB222", VehicleTypeId = 2 },
+                new Vehicle { Id = 5, OwnerId = 2, RegNr = "BBB333", VehicleTypeId = 2 },
+                new Vehicle { Id = 6, OwnerId = 2, RegNr = "CCC333", VehicleTypeId = 3 },
+                new Vehicle { Id = 7, OwnerId = 2, RegNr = "CCC444", VehicleTypeId = 3 },
+                new Vehicle { Id = 8, OwnerId = 3, RegNr = "DDD444", VehicleTypeId = 4 },
+                new Vehicle { Id = 9, OwnerId = 3, RegNr = "DDD555", VehicleTypeId = 4 }
             });
 
             SaveChanges();
+
+            if (Parkings.Count() == 0)
+            {
+                Parkings.AddOrUpdate(p => p.Id,
+                    new[] {
+                        new Parking { Id = 1, ParkingSlotId = 1, VehicleId = 1, DateIn = DateTime.Now, DateOut = null },
+                        new Parking { Id = 2, ParkingSlotId = 2, VehicleId = 2, DateIn = DateTime.Now.AddDays(-1), DateOut = null },
+                        new Parking { Id = 3, ParkingSlotId = 3, VehicleId = 3, DateIn = DateTime.Now.AddDays(-2), DateOut = DateTime.Now },
+                        new Parking { Id = 4, ParkingSlotId = 4, VehicleId = 4, DateIn = DateTime.Now.AddDays(-4), DateOut = DateTime.Now.AddDays(-2) },
+                        new Parking { Id = 5, ParkingSlotId = 4, VehicleId = 5, DateIn = DateTime.Now, DateOut = null },
+                    });
+                ParkingSlots.Find(1).VehicleId = 1;
+                ParkingSlots.Find(2).VehicleId = 2;
+                ParkingSlots.Find(5).VehicleId = 5;
+
+                SaveChanges();
+            }
         }
     }
 }

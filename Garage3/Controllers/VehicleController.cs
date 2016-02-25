@@ -73,8 +73,20 @@ namespace Garage3.Controllers
 
         public ActionResult ByType(int id)
         {
-            var vs = db.Vehicles.Where(v => v.VehicleTypeId == id).Select(VehicleSelector);
+            var vs = db.Vehicles
+                .Where(v => v.VehicleTypeId == id)
+                .Select(VehicleSelector);
             return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ByOwner(int id)
+        {
+            var os = db.Owners
+                .Where(o => o.Id == id)
+                .SingleOrDefault()
+                .Vehicles
+                .Select(VehicleSelector);
+            return Json(os.ToList(), JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -17,26 +17,24 @@ namespace Garage3.Controllers
         // So we project them manually, which also serves as having
         // better control over the json object field names
 
-        private Func<Vehicle, object> VehicleSelector = v => new
-        {
-            v_id = v.Id,
-            v_reg = v.RegNr,
-            vt_id = v.Type.Id,
-            vt_name = v.Type.Name,
-            o_id = v.OwnerId,
-            o_name = v.Owner.Name,
-        };
+		private Func<Vehicle, object> VehicleSelector = v => new
+		{
+			id = v.Id,
+			reg = v.RegNr,
+			type = new { id = v.Type.Id, name = v.Type.Name },
+			owner = new { id = v.OwnerId, name = v.Owner.Name }
+		};
 
         private Func<Owner, object> OwnerSelector = o => new
         {
-            o_id = o.Id,
-            o_name = o.Name,
+            id = o.Id,
+            name = o.Name,
         };
 
         private Func<VehicleType, object> VehicleTypeSelector = t => new
         {
-            vt_id = t.Id,
-            vt_name = t.Name
+            id = t.Id,
+            name = t.Name
         };
 
         public ActionResult Index()

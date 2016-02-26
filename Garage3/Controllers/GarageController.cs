@@ -11,6 +11,24 @@ namespace Garage3.Controllers
     {
         private GarageContext db = new GarageContext();
 
+		public ActionResult Index()
+		{
+			ViewBag.Slots = db.ParkingSlots.OrderBy(p => p.Id);
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Park(string RegNr)
+		{
+			var v = db.Vehicles.Where(x => String.Compare(x.RegNr, RegNr, true) == 0).SingleOrDefault();
+			if (v == null)
+			{
+				return RedirectToAction("Index");
+			}
+			return RedirectToAction("Index", new { owner = v.Owner.Name });
+		}
+
         public ActionResult Slots(int? id)
         {
             var q = db.ParkingSlots.AsQueryable();

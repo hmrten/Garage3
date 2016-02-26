@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Garage3.Models.ParkingSlot>
+
+<style>
+	.slot {
+		width: 50px;
+		display: inline-block;
+		background-color: #eee;
+		text-align: center;
+		border: 1px solid black;
+		margin-top: 5px;
+	}
+
+	.slot:hover {
+		background-color: yellowgreen;
+		cursor: pointer;
+	}
+
+	.slot-occupied {
+		background-color: red;
+	}
+
+	.slot-occupied:hover {
+		background-color: red;
+		cursor: default;
+	}
+</style>
+
+@{ var i = 0; }
+@foreach (var item in Model) {
+	var cls = "slot";
+	if (item.VehicleId != null)
+	{
+		cls += " slot-occupied";
+	}
+	<div class="@cls">
+		@item.Id
+	</div>
+	++i;
+	if(i % 10 == 0) {
+		<br/>
+	}
+}

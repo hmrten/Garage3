@@ -14,7 +14,7 @@ namespace Garage3.Migrations
 
         protected override void Seed(Garage3.DataAccess.GarageContext context)
         {
-            context.SeedTestData();
+			context.SeedTestData();
         }
     }
 }

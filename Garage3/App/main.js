@@ -2,11 +2,16 @@
 var mainApp = angular.module('main', []);
 
 mainApp.controller('mainController', function ($scope, $http) {
-	var url = AppData.rootPath + 'Garage/Slots';
-	$http.get(url).then(function (resp) {
-		$scope.slots = resp.data;
-	});
+
+	function getSlots() {
+		$http.get(AppData.rootPath + 'Garage/Slots').then(function (resp) {
+			$scope.slots = resp.data;
+		});
+	}
+
 	$scope.message = 'hello from Angular!';
+
+	getSlots();
 
 	$scope.vehicleInfo = null;
 	$scope.showInfo = function (s) {
@@ -23,6 +28,7 @@ mainApp.controller('mainController', function ($scope, $http) {
 
 	$scope.showRegForm = false;
 	$scope.showFullReg = false;
+	$scope.showUnpark = false;
 
 	$scope.useSlot = function (slot) {
 		$scope.parkMessage = '';
@@ -32,6 +38,9 @@ mainApp.controller('mainController', function ($scope, $http) {
 		if (slot.v_id == null) {
 			$scope.slotId = slot.id;
 			$scope.showRegForm = true;
+			$scope.showUnpark = false;
+		} else {
+			$scope.showUnpark = true;
 		}
 	};
 
@@ -45,6 +54,9 @@ mainApp.controller('mainController', function ($scope, $http) {
 		$http.post(AppData.rootPath + 'Garage/Park', data).then(
 			function (resp) { // success
 				$scope.parkMessage = 'succesfully parked in slot: ' + $scope.slotId;
+				$scope.showRegForm = false;
+				$scope.showFullReg = false;
+				getSlots();
 			},
 			function (resp) { // failure
 				// might be because vehicle reg was not found

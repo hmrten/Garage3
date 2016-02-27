@@ -1,4 +1,5 @@
 ﻿using Garage3.DataAccess;
+using Garage3.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,35 @@ namespace Garage3.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Park(int slotId, string regNr)
+		public ActionResult Park(int slotId, string regNr, int? typeId, string ownerName)
 		{
 			var v = db.Vehicles.Where(x => String.Compare(x.RegNr, regNr, true) == 0).SingleOrDefault();
 			if (v == null)
 			{
-				return HttpNotFound();
+				if (typeId == null && ownerName == null)
+				{
+					return HttpNotFound();
+				}
+
+				var o = db.Owners.Where(x => String.Compare(x.Name, ownerName, true) == 0).SingleOrDefault();
+				if (o == null)
+				{
+					o = db.Owners.Add(new Owner { Name = ownerName });
+					db.SaveChanges();
+				}
+
+				// TODO: validate typeId
+				v = db.Vehicles.Add(new Vehicle { RegNr = regNr, OwnerId = o.Id, VehicleTypeId = typeId.Value });
+				db.SaveChanges();
 			}
+
+			var s = db.ParkingSlots.Find(slotId);
+			s.VehicleId = v.Id;
+
+			db.Parkings.Add(new Parking { DateIn = DateTime.Now, DateOut = null, ParkingSlotId = slotId, VehicleId = v.Id });
+
+			db.SaveChanges();
+
 			return RedirectToAction("Index", new { owner = v.Owner.Name });
 		}
 

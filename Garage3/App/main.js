@@ -38,7 +38,9 @@ mainApp.controller('mainController', function ($scope, $http) {
 	$scope.park = function () {
 		var data = {
 			slotId: $scope.slotId,
-			regNr: $scope.regNr
+			regNr: $scope.regNr,
+			typeId: $scope.typeId,
+			ownerName: $scope.ownerName
 		};
 		$http.post(AppData.rootPath + 'Garage/Park', data).then(
 			function (resp) { // success

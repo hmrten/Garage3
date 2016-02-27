@@ -13,22 +13,15 @@ mainApp.controller('mainController', function ($scope, $http) {
 
 	getSlots();
 
-	$scope.vehicleInfo = null;
-	$scope.showInfo = function (s) {
-		if (s == null) {
-			$scope.vehicleInfo = null;
-		} else {
-			if (s.v_id != null) {
-				$http.get(AppData.rootPath + 'Vehicle/List/' + s.v_id).then(function (resp) {
-					$scope.vehicleInfo = resp.data;
-				});
-			}
-		}
-	};
 
 	$scope.showRegForm = false;
 	$scope.showFullReg = false;
-	$scope.showUnpark = false;
+	$scope.parking = null;
+
+	function parseMSDate(s) {
+		if (!s) return null;
+		return new Date(parseInt(s.substr(6)));
+	};
 
 	$scope.useSlot = function (slot) {
 		$scope.parkMessage = '';
@@ -38,9 +31,13 @@ mainApp.controller('mainController', function ($scope, $http) {
 		if (slot.v_id == null) {
 			$scope.slotId = slot.id;
 			$scope.showRegForm = true;
-			$scope.showUnpark = false;
+			$scope.parking = null;
 		} else {
-			$scope.showUnpark = true;
+			$http.get(AppData.rootPath + 'Garage/ParkingBySlot/' + slot.id).then(function (resp) {
+				$scope.parking = resp.data;
+				$scope.parking.date_in = parseMSDate($scope.parking.date_in);
+				$scope.parking.date_out = parseMSDate($scope.parking.date_out);
+			});
 		}
 	};
 

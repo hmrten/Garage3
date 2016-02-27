@@ -48,7 +48,10 @@ namespace Garage3.Controllers
             if (id != null)
                 q = q.Where(v => v.Id == id);
             var vs = q.Select(VehicleSelector);
-            return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
+			var l = vs.ToList();
+			if (l.Count == 1)
+				return Json(l[0], JsonRequestBehavior.AllowGet);
+            return Json(l, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Owners(int? id)

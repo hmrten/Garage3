@@ -37,7 +37,6 @@ textarea {
 
 .slot-occupied:hover {
 	background-color: red;
-	cursor: default;
 }
 
 .slotInfo {

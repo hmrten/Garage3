@@ -19,20 +19,30 @@
 		<div style="width: 550px">
 			<div data-ng-repeat="s in slots | orderBy:'id'"
 				 data-ng-class="['slot', {'slot-occupied': s.v_id}]"
-				 data-ng-mouseover="showInfo(s)" data-ng-mouseleave="showInfo(null)"
 				 data-ng-click="useSlot(s)">
 				{{ s.id }}
 			</div>
-		</div>
-		<div class="slotInfo" data-ng-show="vehicleInfo">
-			Vehicle: {{ vehicleInfo }}
 		</div>
 		<h4>
 			{{ parkMessage }}
 		</h4>
 
-		<div data-ng-show="showUnpark">
-			unpark?
+		<div data-ng-show="parking" class="row">
+			<dl class="dl-horizontal">
+				<dt>Slot:</dt>
+				<dd>{{ parking.slot_id }}</dd>
+				<dt>Reg nr:</dt>
+				<dd>{{ parking.vehicle.reg }}</dd>
+				<dt>Type:</dt>
+				<dd>{{ parking.vehicle.type.name }}</dd>
+				<dt>Owner:</dt>
+				<dd>{{ parking.vehicle.owner.name }}</dd>
+				<dt>Date in:</dt>
+				<dd>{{ parking.date_in | date:'short'}}</dd>
+			</dl>
+			<div class="col-sm-offset-2 col-sm-10">
+				<button class="btn btn-danger" type="button" data-ng-click="unpark(parking)">Unpark</button>
+			</div>
 		</div>
 
 		<form data-ng-submit="park()" data-ng-show="showRegForm" class="form-horizontal">
@@ -68,7 +78,7 @@
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button class="btn btn-default" type="submit">Park</button>
+					<button class="btn btn-primary" type="submit">Park</button>
 				</div>
 			</div>
 		</form>

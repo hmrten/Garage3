@@ -79,7 +79,7 @@ namespace Garage3.DataAccess
                     });
                 ParkingSlots.Find(1).VehicleId = 1;
                 ParkingSlots.Find(2).VehicleId = 2;
-                ParkingSlots.Find(5).VehicleId = 5;
+                ParkingSlots.Find(4).VehicleId = 5;
 
                 SaveChanges();
             }

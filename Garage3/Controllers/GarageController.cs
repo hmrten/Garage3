@@ -29,7 +29,17 @@ namespace Garage3.Controllers
 
 		public ActionResult Index()
 		{
+			return View();
+		}
+
+		public ActionResult Manage()
+		{
 			ViewBag.Slots = db.ParkingSlots.OrderBy(p => p.Id);
+			return View();
+		}
+
+		public ActionResult History()
+		{
 			return View();
 		}
 

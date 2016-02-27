@@ -17,10 +17,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Garage 3.0", "Index", "Garage", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+					<li>@Html.ActionLink("Manage", "Manage", "Garage")</li>
+					<li>@Html.ActionLink("History", "History", "Garage")</li>
                     <li>@Html.ActionLink("Vehicles", "List", "Vehicle")</li>
                     <li>@Html.ActionLink("Owners", "Owners", "Vehicle")</li>
                     <li>@Html.ActionLink("Types", "Types", "Vehicle")</li>
@@ -33,7 +35,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Mårten, Nikola &amp; Martin</p>
         </footer>
     </div>
 
@@ -44,8 +46,5 @@
 		AppData.rootPath = '@Url.Content("~")';
 	</script>
 	@RenderSection("scripts", false)
-	<script>
-		@RenderSection("jsCode", false)
-	</script>
 </body>
 </html>

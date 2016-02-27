@@ -39,11 +39,6 @@ namespace Garage3.Controllers
             name = t.Name
         };
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-
 		// return an array of vehicles, optionally filtered by id
         public ActionResult List(int? id)
         {

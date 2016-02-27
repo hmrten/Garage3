@@ -9,9 +9,31 @@
 			});
 		}
 
+		function getParkings() {
+			$http.get(AppData.rootPath + 'Garage/Parkings').then(function (resp) {
+				var parkings = [];
+				var data = resp.data;
+				for (var i = 0; i < data.length; ++i) {
+					if (data[i].date_out == null)
+						parkings.push(data[i]);
+				}
+				$scope.parkings = parkings;
+			});
+		}
+
+		$scope.searchText = '';
+
+		$scope.parkingFilter = function (p) {
+			var s = $scope.searchText.toLowerCase();
+			var r = p.vehicle.reg.toLowerCase();
+			var o = p.vehicle.owner.name.toLowerCase();
+			return (s == '' || s == r || s == o);
+		};
+
 		$scope.message = 'hello from Angular!';
 
 		refreshSlots();
+		getParkings();
 
 		// TODO: this is not nice, have to juggle 3 'visibility' flags
 		$scope.showRegForm = false;

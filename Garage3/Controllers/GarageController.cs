@@ -33,15 +33,30 @@ namespace Garage3.Controllers
 			return View();
 		}
 
+		private bool IsParked(string regNr)
+		{
+			var v = from p in db.Parkings
+					where p.DateOut == null
+					select p.Vehicle.RegNr into reg
+					where reg.ToLower() == regNr.ToLower()
+					select reg;
+			return v.Count() == 1;
+		}
+
 		[HttpPost]
 		public ActionResult Park(int slotId, string regNr, int? typeId, string ownerName)
 		{
+			if (IsParked(regNr))
+			{
+				return new HttpStatusCodeResult(400, regNr + " is already parked");
+			}
+
 			var v = db.Vehicles.Where(x => String.Compare(x.RegNr, regNr, true) == 0).SingleOrDefault();
 			if (v == null)
 			{
 				if (typeId == null && ownerName == null)
 				{
-					return HttpNotFound();
+					return HttpNotFound("no vehicle with reg nr: " + regNr + " found");
 				}
 
 				var o = db.Owners.Where(x => String.Compare(x.Name, ownerName, true) == 0).SingleOrDefault();
@@ -56,14 +71,25 @@ namespace Garage3.Controllers
 				db.SaveChanges();
 			}
 
-			var s = db.ParkingSlots.Find(slotId);
-			s.VehicleId = v.Id;
+			var p = db.Parkings.Add(new Parking { DateIn = DateTime.Now, DateOut = null, ParkingSlotId = slotId, VehicleId = v.Id });
 
-			db.Parkings.Add(new Parking { DateIn = DateTime.Now, DateOut = null, ParkingSlotId = slotId, VehicleId = v.Id });
+			var s = db.ParkingSlots.Find(slotId);
+			s.ParkingId = p.Id;
 
 			db.SaveChanges();
 
 			return RedirectToAction("Index", new { owner = v.Owner.Name });
+		}
+
+		[HttpPut]
+		public ActionResult Unpark(int id)
+		{
+			var p = db.Parkings.Find(id);
+			p.DateOut = DateTime.Now;
+			var s = db.ParkingSlots.Find(p.ParkingSlotId);
+			s.ParkingId = null;
+			db.SaveChanges();
+			return new HttpStatusCodeResult(200, "unparked " + p.Vehicle.RegNr);
 		}
 
         public ActionResult Slots(int? id)
@@ -71,7 +97,7 @@ namespace Garage3.Controllers
             var q = db.ParkingSlots.AsQueryable();
 			if (id != null)
 				q = q.Where(s => s.Id == id);
-            var slots = q.Select(s => new { id = s.Id, v_id = s.VehicleId });
+            var slots = q.Select(s => new { id = s.Id, p_id = s.ParkingId });
             return Json(slots.ToList(), JsonRequestBehavior.AllowGet);
         }
 

@@ -898,9 +898,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201602262011058_v1.cs" />
-    <Compile Include="Migrations\201602262011058_v1.Designer.cs">
-      <DependentUpon>201602262011058_v1.cs</DependentUpon>
+    <Compile Include="Migrations\201602271706174_v1.cs" />
+    <Compile Include="Migrations\201602271706174_v1.Designer.cs">
+      <DependentUpon>201602271706174_v1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Owner.cs" />
@@ -936,8 +936,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201602262011058_v1.resx">
-      <DependentUpon>201602262011058_v1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602271706174_v1.resx">
+      <DependentUpon>201602271706174_v1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

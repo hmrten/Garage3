@@ -18,7 +18,7 @@
 		<h3>{{ message }}</h3>
 		<div style="width: 550px">
 			<div data-ng-repeat="s in slots | orderBy:'id'"
-				 data-ng-class="['slot', {'slot-occupied': s.v_id}]"
+				 data-ng-class="['slot', {'slot-occupied': s.p_id}]"
 				 data-ng-click="useSlot(s)">
 				{{ s.id }}
 			</div>
@@ -39,9 +39,11 @@
 				<dd>{{ parking.vehicle.owner.name }}</dd>
 				<dt>Date in:</dt>
 				<dd>{{ parking.date_in | date:'short'}}</dd>
+				<dt>Parked for:</dt>
+				<dd>{{ parking.date_dur }}</dd>
 			</dl>
 			<div class="col-sm-offset-2 col-sm-10">
-				<button class="btn btn-danger" type="button" data-ng-click="unpark(parking)">Unpark</button>
+				<button class="btn btn-danger" type="button" data-ng-click="unpark()">Unpark</button>
 			</div>
 		</div>
 

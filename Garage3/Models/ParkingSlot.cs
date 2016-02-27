@@ -12,9 +12,9 @@ namespace Garage3.Models
         [Key]
         public int Id { get; set; }
 
-        public int? VehicleId { get; set; }
+        public int? ParkingId { get; set; }
 
-        [ForeignKey("VehicleId")]
-        public virtual Vehicle Vehicle { get; set; }
+        [ForeignKey("ParkingId")]
+        public virtual Parking Parking { get; set; }
     }
 }

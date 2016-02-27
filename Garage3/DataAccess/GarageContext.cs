@@ -39,7 +39,7 @@ namespace Garage3.DataAccess
             {
                 for (int i = 0; i < 100; ++i)
                 {
-                    ParkingSlots.AddOrUpdate(new ParkingSlot { VehicleId = null });
+                    ParkingSlots.AddOrUpdate(new ParkingSlot { ParkingId = null });
                 }
             }
 
@@ -77,10 +77,9 @@ namespace Garage3.DataAccess
                         new Parking { Id = 4, ParkingSlotId = 4, VehicleId = 4, DateIn = DateTime.Now.AddDays(-4), DateOut = DateTime.Now.AddDays(-2) },
                         new Parking { Id = 5, ParkingSlotId = 4, VehicleId = 5, DateIn = DateTime.Now, DateOut = null },
                     });
-                ParkingSlots.Find(1).VehicleId = 1;
-                ParkingSlots.Find(2).VehicleId = 2;
-                ParkingSlots.Find(4).VehicleId = 5;
-
+                ParkingSlots.Find(1).ParkingId = 1;
+				ParkingSlots.Find(2).ParkingId = 2;
+				ParkingSlots.Find(4).ParkingId = 5;
                 SaveChanges();
             }
         }

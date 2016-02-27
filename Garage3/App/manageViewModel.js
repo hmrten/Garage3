@@ -1,7 +1,7 @@
 ﻿(function () {
 	var app = angular.module('manage', []);
 
-	app.controller('parkController', function ($scope, $http) {
+	app.controller('manageViewModel', function ($scope, $http) {
 		// must be called everytime you wanna update the grid of slots
 		function refreshSlots() {
 			$http.get(AppData.rootPath + 'Garage/Slots').then(function (resp) {

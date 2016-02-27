@@ -1,12 +1,18 @@
-﻿
-@{
-    ViewBag.Title = "History";
+﻿@{
+	ViewBag.Title = "History";
 }
 
 @section scripts {
 	<script src="~/Scripts/angular.min.js"></script>
-	<script src="~/App/main.js"></script>
+	<script src="~/App/historyViewModel.js"></script>
 }
 
 <h2>History</h2>
 
+<div class="row">
+	<div data-ng-app="history" class="col-sm-7">
+		<div data-ng-controller="historyViewModel">
+			<h4>{{ msg }}</h4>
+		</div>
+	</div>
+</div>

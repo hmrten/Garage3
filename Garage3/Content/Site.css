@@ -16,3 +16,30 @@ textarea {
     max-width: 280px;
 }
 
+.slot {
+	width: 50px;
+	display: inline-block;
+	background-color: #eee;
+	text-align: center;
+	border: 1px solid black;
+	margin-bottom: 5px;
+	margin-right: 5px;
+}
+
+.slot:hover {
+	background-color: yellowgreen;
+	cursor: pointer;
+}
+
+.slot-occupied {
+	background-color: red;
+}
+
+.slot-occupied:hover {
+	background-color: red;
+	cursor: default;
+}
+
+.slotInfo {
+	position: absolute;
+}

@@ -18,13 +18,12 @@ namespace Garage3.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Park(string RegNr)
+		public ActionResult Park(int slotId, string regNr)
 		{
-			var v = db.Vehicles.Where(x => String.Compare(x.RegNr, RegNr, true) == 0).SingleOrDefault();
+			var v = db.Vehicles.Where(x => String.Compare(x.RegNr, regNr, true) == 0).SingleOrDefault();
 			if (v == null)
 			{
-				return RedirectToAction("Index");
+				return HttpNotFound();
 			}
 			return RedirectToAction("Index", new { owner = v.Owner.Name });
 		}
@@ -34,7 +33,7 @@ namespace Garage3.Controllers
             var q = db.ParkingSlots.AsQueryable();
             if (id != null)
                 q = q.Where(s => s.Id == id);
-            var slots = q.Select(s => new { slot_id = s.Id, v_id = s.VehicleId });
+            var slots = q.Select(s => new { id = s.Id, v_id = s.VehicleId });
             return Json(slots.ToList(), JsonRequestBehavior.AllowGet);
         }
 

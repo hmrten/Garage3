@@ -39,6 +39,13 @@
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-	@RenderSection("scripts")
+	<script>
+		window.AppData = {}
+		AppData.rootPath = '@Url.Content("~")';
+	</script>
+	@RenderSection("scripts", false)
+	<script>
+		@RenderSection("jsCode", false)
+	</script>
 </body>
 </html>

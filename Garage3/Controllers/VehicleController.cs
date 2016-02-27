@@ -8,6 +8,8 @@ using System.Web.Mvc;
 
 namespace Garage3.Controllers
 {
+	// This is basically an API for angular to get data from
+
     public class VehicleController : Controller
     {
         private GarageContext db = new GarageContext();
@@ -42,18 +44,17 @@ namespace Garage3.Controllers
             return View();
         }
 
+		// return an array of vehicles, optionally filtered by id
         public ActionResult List(int? id)
         {
             var q = db.Vehicles.AsQueryable();
             if (id != null)
                 q = q.Where(v => v.Id == id);
             var vs = q.Select(VehicleSelector);
-			var l = vs.ToList();
-			if (l.Count == 1)
-				return Json(l[0], JsonRequestBehavior.AllowGet);
-            return Json(l, JsonRequestBehavior.AllowGet);
+            return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
         }
 
+		// return an array of owners, optionally filtered by id
         public ActionResult Owners(int? id)
         {
             var q = db.Owners.AsQueryable();
@@ -63,6 +64,8 @@ namespace Garage3.Controllers
             return Json(os.ToList(), JsonRequestBehavior.AllowGet);
         }
 
+		// return an array of vehicle types, optionally filtered by id
+		// can use this to populate drop down list
         public ActionResult Types(int? id)
         {
             var q = db.VehicleTypes.AsQueryable();
@@ -72,6 +75,7 @@ namespace Garage3.Controllers
             return Json(ts.ToList(), JsonRequestBehavior.AllowGet);
         }
 
+		// Lookup a vehicle by RegNr
         public ActionResult ByRegNr(string id)
         {
             var vs = db.Vehicles
@@ -80,6 +84,7 @@ namespace Garage3.Controllers
             return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
         }
 
+		// Get all vehicles with a specific type (by id)
         public ActionResult ByType(int id)
         {
             var vs = db.Vehicles
@@ -88,6 +93,7 @@ namespace Garage3.Controllers
             return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
         }
 
+		// get all vehicles owner by ownerId
         public ActionResult ByOwner(int id)
         {
             var os = db.Owners

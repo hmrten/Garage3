@@ -51,36 +51,57 @@ namespace Garage3.Controllers
 				return new HttpStatusCodeResult(400, regNr + " is already parked");
 			}
 
+			// First check if a vehicle exists in the database
 			var v = db.Vehicles.Where(x => String.Compare(x.RegNr, regNr, true) == 0).SingleOrDefault();
 			if (v == null)
 			{
+				// If not, lets try and register one
+				// First time from the angular form typeId and ownerName will be null
+				// so ow we should return with a 404 to indicate that
+				// angular should show a form to register a new vehicle
 				if (typeId == null && ownerName == null)
 				{
 					return HttpNotFound("no vehicle with reg nr: " + regNr + " found");
 				}
 
+				// otherwise, typeId and ownerName was filled in
+				// which mean this request came from the full form
+				// so now it's time to hook up a new vehicle and owner
+
+				// Check if an owner already exists
+				// TODO: this assumes names a re qunique, would probably need something better
+				//       for a real application.
 				var o = db.Owners.Where(x => String.Compare(x.Name, ownerName, true) == 0).SingleOrDefault();
 				if (o == null)
 				{
+					// if no owner found with that name, time to add a new one
 					o = db.Owners.Add(new Owner { Name = ownerName });
 					db.SaveChanges();
 				}
 
 				// TODO: validate typeId
+				// Add a new vehicle.
 				v = db.Vehicles.Add(new Vehicle { RegNr = regNr, OwnerId = o.Id, VehicleTypeId = typeId.Value });
 				db.SaveChanges();
 			}
 
+			// now we've set up an owner and a vehicle, so now it's time to park it.
+
 			var p = db.Parkings.Add(new Parking { DateIn = DateTime.Now, DateOut = null, ParkingSlotId = slotId, VehicleId = v.Id });
 
+			// Update the parking slot to point to the new ParkingId.
 			var s = db.ParkingSlots.Find(slotId);
 			s.ParkingId = p.Id;
 
 			db.SaveChanges();
 
-			return RedirectToAction("Index", new { owner = v.Owner.Name });
+			// all done, return to Index (angular will take care of updating the view)
+			return RedirectToAction("Index");
 		}
 
+		// use a PUT method for unparking because all it involves
+		// is updating ParkingSlots and Parkings with new values
+		// (namely setting ParkingId to null in slots and setting DateOut in Parkings)
 		[HttpPut]
 		public ActionResult Unpark(int id)
 		{
@@ -92,6 +113,7 @@ namespace Garage3.Controllers
 			return new HttpStatusCodeResult(200, "unparked " + p.Vehicle.RegNr);
 		}
 
+		// API: return an array of the slots in json format
         public ActionResult Slots(int? id)
         {
             var q = db.ParkingSlots.AsQueryable();
@@ -101,6 +123,7 @@ namespace Garage3.Controllers
             return Json(slots.ToList(), JsonRequestBehavior.AllowGet);
         }
 
+		// API: return an array of parkings in json format
         public ActionResult Parkings(int? id)
         {
             var q = db.Parkings.AsQueryable();
@@ -109,16 +132,5 @@ namespace Garage3.Controllers
 			var ps = q.Select(ParkingSelector);
             return Json(ps.ToList(), JsonRequestBehavior.AllowGet);
         }
-
-		public ActionResult ParkingBySlot(int id)
-		{
-			var p = db.Parkings.Where(x => x.ParkingSlotId == id).SingleOrDefault();
-			if (p == null)
-			{
-				return HttpNotFound();
-			}
-			var data = ParkingSelector(p);
-			return Json(data, JsonRequestBehavior.AllowGet);
-		}
     }
 }

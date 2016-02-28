@@ -1,16 +1,16 @@
 ﻿(function () {
-	var app = angular.module('manage', []);
+	var app = angular.module('manage', ['base']);
 
-	app.controller('manageViewModel', function ($scope, $http) {
+	app.controller('manageCtrl', function ($scope, $http) {
 		// must be called everytime you wanna update the grid of slots
 		function refreshSlots() {
-			$http.get(AppData.rootPath + 'Garage/Slots').then(function (resp) {
+			$http.get(garage.rootPath + 'Garage/Slots').then(function (resp) {
 				$scope.slots = resp.data;
 			});
 		}
 
 		function getParkings() {
-			$http.get(AppData.rootPath + 'Garage/Parkings').then(function (resp) {
+			$http.get(garage.rootPath + 'Garage/Parkings').then(function (resp) {
 				var parkings = [];
 				var data = resp.data;
 				for (var i = 0; i < data.length; ++i) {
@@ -52,7 +52,7 @@
 		// maybe should split up?
 		$scope.useSlot = function (slot) {
 			// reset everything to start with
-			$scope.parkMessage = '';
+			$scope.alertMessage = '';
 			$scope.showRegForm = false;
 			$scope.showFullReg = false;
 
@@ -63,11 +63,13 @@
 				// TODO: better handling of toggling visibility
 				$scope.showRegForm = true;
 				$scope.parking = null;
+				$scope.alertMessage = 'Park vehicle';
+				$scope.alertType = 'info';
 			} else {
 				// if the user clicked on a parking slot that was occupied
 				// then we should show the part for unparking
 				// but first we need to get more data about the vehicle in that parking slot
-				$http.get(AppData.rootPath + 'Garage/Parkings/' + slot.p_id).then(function (resp) {
+				$http.get(garage.rootPath + 'Garage/Parkings/' + slot.p_id).then(function (resp) {
 					// it returns an array of size 1
 					$scope.parking = resp.data[0];
 					// fixup dates
@@ -85,6 +87,9 @@
 					secs -= (hours * 3600);
 					var mins = Math.floor(secs / 60);
 					$scope.parking.date_dur = days + ' days, ' + hours + ' hours, ' + mins + ' mins';
+
+					$scope.alertType = 'warning';
+					$scope.alertMessage = 'Vehicle info';
 				});
 			}
 		};
@@ -97,9 +102,10 @@
 				typeId: $scope.typeId,
 				ownerName: $scope.ownerName
 			};
-			$http.post(AppData.rootPath + 'Garage/Park', data).then(
+			$http.post(garage.rootPath + 'Garage/Park', data).then(
 				function (resp) { // success
-					$scope.parkMessage = 'succesfully parked in slot: ' + $scope.slotId;
+					$scope.alertMessage = 'succesfully parked in slot: ' + $scope.slotId;
+					$scope.alertType = 'success';
 					// TODO: make this better
 					$scope.showRegForm = false;
 					$scope.showFullReg = false;
@@ -114,13 +120,15 @@
 					// 404 == no vehicle
 
 					if (reason.status == 400) {
-						$scope.parkMessage = reason.statusText;
+						$scope.alertMessage = reason.statusText;
+						$scope.alertType = 'danger';
 					} else if (reason.status == 404) {
 						// no vehicle with that reg, so ask to register a new one
-						$http.get(AppData.rootPath + 'Vehicle/Types').then(function (resp) {
+						$http.get(garage.rootPath + 'Vehicle/Types').then(function (resp) {
 							$scope.vehicleTypes = resp.data;
 							$scope.showFullReg = true;
-							$scope.parkMessage = 'Please register a new vehicle';
+							$scope.alertMessage = 'Please register a new vehicle';
+							$scope.alertType = 'warning';
 						});
 					}
 				}
@@ -132,8 +140,9 @@
 				id: $scope.parking.id
 			};
 			// we don't really care about handling errors here
-			$http.put(AppData.rootPath + 'Garage/Unpark', data).then(function (resp) {
-				$scope.parkMessage + resp.statusText;
+			$http.put(garage.rootPath + 'Garage/Unpark', data).then(function (resp) {
+				$scope.alertMessage = resp.statusText;
+				$scope.alertType = 'success';
 				// TODO: better visibility handling
 				$scope.parking = null;
 				// parking slots have changed, so we need to refresh the view

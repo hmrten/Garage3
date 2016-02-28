@@ -5,16 +5,15 @@
 }
 
 @section scripts {
-	<script src="~/Scripts/angular.min.js"></script>
-	<script src="~/App/manageViewModel.js"></script>
+	<script src="~/App/manage.js"></script>
 }
 <h2>Park &amp; Unpark</h2>
-
+<h4>Select a parking slot to park or unpark vehicles</h4>
 
 <div class="row">
 	<div data-ng-app="manage" class="col-sm-7">
-		<div data-ng-controller="manageViewModel">
-			<form>
+		<div data-ng-controller="manageCtrl">
+			<!--<form>
 				<div class="form-group">
 					<div class="input-group">
 						<span class="input-group-addon">RegNr/Owner:</span>
@@ -22,21 +21,19 @@
 						<button class="btn btn-primary" type="submit">Filter</button>
 					</div>
 				</div>
-			</form>
-
-			<ul>
-				<li data-ng-repeat="p in parkings | filter:parkingFilter">{{ p.vehicle.reg }} - {{ p.vehicle.owner.name }}</li>
-			</ul>
-			<div>
+			</form>-->
+			<div class="col-sm-12">
 				<button class="btn" style="width: 50px; margin: 1px" data-ng-repeat="s in slots | orderBy:'id'"
 						data-ng-class="[{'btn-default': !s.p_id, 'btn-warning': s.p_id}]"
 						data-ng-click="useSlot(s)">
 					{{ s.id }}
 				</button>
 			</div>
-			<h4>{{ parkMessage }}</h4>
+			<div class="alert alert-{{ alertType }}" data-ng-show="alertMessage" style="margin-top: 10px">
+				<strong>{{ alertMessage }}</strong>
+			</div>
 
-			<div data-ng-show="parking" class="row">
+			<div data-ng-show="parking">
 				<dl class="dl-horizontal">
 					<dt>Slot:</dt>
 					<dd>{{ parking.slot_id }}</dd>

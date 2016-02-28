@@ -56,11 +56,6 @@ namespace Garage3.Controllers
 		[HttpPost]
 		public ActionResult Park(int slotId, string regNr, int? typeId, string ownerName)
 		{
-			if (IsParked(regNr))
-			{
-				return new HttpStatusCodeResult(400, regNr + " is already parked");
-			}
-
 			// First check if a vehicle exists in the database
 			var v = db.Vehicles.Where(x => String.Compare(x.RegNr, regNr, true) == 0).SingleOrDefault();
 			if (v == null)
@@ -93,6 +88,11 @@ namespace Garage3.Controllers
 				// Add a new vehicle.
 				v = db.Vehicles.Add(new Vehicle { RegNr = regNr, OwnerId = o.Id, VehicleTypeId = typeId.Value });
 				db.SaveChanges();
+			}
+
+			if (IsParked(regNr))
+			{
+				return new HttpStatusCodeResult(400, regNr + " is already parked");
 			}
 
 			// now we've set up an owner and a vehicle, so now it's time to park it.

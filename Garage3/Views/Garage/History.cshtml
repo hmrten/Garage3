@@ -3,16 +3,40 @@
 }
 
 @section scripts {
-	<script src="~/Scripts/angular.min.js"></script>
-	<script src="~/App/historyViewModel.js"></script>
+	<script src="~/App/history.js"></script>
 }
 
 <h2>History</h2>
 
 <div class="row">
-	<div data-ng-app="history" class="col-sm-7">
-		<div data-ng-controller="historyViewModel">
+	<div data-ng-app="history" class="col-sm-12">
+		<div data-ng-controller="historyCtrl">
 			<h4>{{ msg }}</h4>
+
+			<table class="table table-condensed">
+				<thead>
+					<tr>
+						<th>id</th>
+						<th>slot_id</th>
+						<th>date_in</th>
+						<th>date_out</th>
+						<th>vehicle_reg</th>
+						<th>vehicle_type</th>
+						<th>vehicle_owner</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat="p in parkings">
+						<td>{{ p.id }}</td>
+						<td>{{ p.slot_id }}</td>
+						<td>{{ p.date_in | date:'short' }}</td>
+						<td>{{ p.date_out | date:'short' }}</td>
+						<td>{{ p.vehicle.reg }}</td>
+						<td>{{ p.vehicle.type.name }}</td>
+						<td>{{ p.vehicle.owner.name }}</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div>

@@ -45,3 +45,7 @@ span.widthFix {
 .clear {
     clear:both;
 }
+
+th.HoverHand:hover {
+  cursor:pointer;
+}

@@ -39,7 +39,11 @@ footer {
 span.widthFix {
     text-align:left;
     min-width:120px;
+    background-color:#ccc;
     
+}
+span.wfix {
+    background-color:#ccc;
 }
 
 .clear {

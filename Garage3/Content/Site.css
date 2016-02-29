@@ -16,31 +16,42 @@ textarea {
     max-width: 280px;
 }
 
-.slot {
-	width: 50px;
-	display: inline-block;
-	background-color: #eee;
-	text-align: center;
-	border: 1px solid black;
-	margin-bottom: 5px;
-	margin-right: 5px;
+.navbar {
+    background-color: lightblue;
 }
 
-.slot:hover {
-	background-color: yellowgreen;
-	cursor: pointer;
+.nav a {
+    color: black;
 }
 
-.slot-occupied {
-	background-color: red;
+.navbar-brand a {
+    color: black;
 }
 
-.slot-occupied:hover {
-	background-color: red;
+.navbar-brand img {
+    margin-right: 10px;
 }
 
-.slotInfo {
-	position: absolute;
+footer {
+    background-color: lightblue;
+}
+
+span.widthFix {
+    text-align:left;
+    min-width:120px;
+    background-color:#ccc;
+    
+}
+span.wfix {
+    background-color:#ccc;
+}
+
+.clear {
+    clear:both;
+}
+
+th.HoverHand:hover {
+  cursor:pointer;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 

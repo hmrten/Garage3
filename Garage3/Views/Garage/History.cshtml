@@ -1,42 +1,69 @@
 ﻿@{
-	ViewBag.Title = "History";
+    ViewBag.Title = "History";
 }
 
 @section scripts {
-	<script src="~/App/history.js"></script>
+    <script src="~/App/history.js"></script>
 }
 
 <h2>History</h2>
 
-<div class="row">
-	<div data-ng-app="history" class="col-sm-12">
-		<div data-ng-controller="historyCtrl">
-			<h4>{{ msg }}</h4>
 
-			<table class="table table-condensed">
-				<thead>
-					<tr>
-						<th>id</th>
-						<th>slot_id</th>
-						<th>date_in</th>
-						<th>date_out</th>
-						<th>vehicle_reg</th>
-						<th>vehicle_type</th>
-						<th>vehicle_owner</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr data-ng-repeat="p in parkings">
-						<td>{{ p.id }}</td>
-						<td>{{ p.slot_id }}</td>
-						<td>{{ p.date_in | date:'short' }}</td>
-						<td>{{ p.date_out | date:'short' }}</td>
-						<td>{{ p.vehicle.reg }}</td>
-						<td>{{ p.vehicle.type.name }}</td>
-						<td>{{ p.vehicle.owner.name }}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+<div class="row">
+    <div data-ng-app="history" class="col-sm-12">
+        <div data-ng-controller="historyCtrl">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-sm-5">
+                        <div class="input-group">
+                            <span class="input-group-addon widthFix">Registration</span>
+                            <input data-ng-model="filterResults" class="form-control" type="search" placeholder="Type in vehicles registration number" />
+                            <span class="input-group-addon">Filter</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-5 clear">
+                        <div class="input-group">
+                            <span class="input-group-addon widthFix">Owner</span>
+                            <input data-ng-model="filterResultsOwn" class="form-control" type="search" placeholder="Type in vehicles owner name" />
+                            <span class="input-group-addon">Filter</span>
+                        </div>
+                    </div>
+                    <select class="form-control" name="typeId" data-ng-model="typeId">
+                        <option selected value="-1">Show All Types</option>
+                        <option data-ng-repeat="vt in vehicleTypes" value="{{ vt.id }}">{{ vt.name }}</option>
+                    </select>
+                </div>
+            </div>
+  
+            <h4>{{ msg }}</h4>
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+    
+                        <th ng-click="OrderBySID(sortID)">{{slot_id}}</th>
+                        <th ng-click="OrderByDIn(sortID)">{{date_in}}</th>
+                        <th ng-click="OrderByDOut(sortID)">{{date_out}}</th>
+                        <th ng-click="OrderByDur(sortID)">{{duration}}</th>
+                        <th>Registration number</th>
+                        <th>Vehicle Type</th>
+                        <th>Vehicle Owner</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="p in parkings | filter:filterReg | filter:filterOwner | filter:typeFilterOn |orderBy:sortID">
+           
+                        <td>{{ p.slot_id }}</td>
+                        <td>{{ p.date_in | date:'short' }}</td>
+                        <td>{{ p.date_out | date:'short' }}</td>
+                        <td>{{p.duration | date:'HH:mm:ss'}}</td>
+                        <td>{{ p.vehicle.reg}}</td>
+                        <td>{{ p.vehicle.type.name }}</td>
+                        <td>{{ p.vehicle.owner.name}}</td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

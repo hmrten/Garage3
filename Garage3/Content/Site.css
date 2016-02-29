@@ -42,3 +42,13 @@ textarea {
 .slotInfo {
 	position: absolute;
 }
+
+span.widthFix {
+    text-align:left;
+    min-width:120px;
+    
+}
+
+.clear {
+    clear:both;
+}

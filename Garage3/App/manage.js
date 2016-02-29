@@ -63,8 +63,7 @@
 				// TODO: better handling of toggling visibility
 				$scope.showRegForm = true;
 				$scope.parking = null;
-				$scope.alertMessage = 'Park vehicle';
-				$scope.alertType = 'info';
+				$scope.headerText = 'Park';
 			} else {
 				// if the user clicked on a parking slot that was occupied
 				// then we should show the part for unparking
@@ -88,8 +87,7 @@
 					var mins = Math.floor(secs / 60);
 					$scope.parking.date_dur = days + ' days, ' + hours + ' hours, ' + mins + ' mins';
 
-					$scope.alertType = 'warning';
-					$scope.alertMessage = 'Vehicle info';
+					$scope.headerText = 'Unpark';
 				});
 			}
 		};

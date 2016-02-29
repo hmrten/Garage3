@@ -1,97 +1,109 @@
 ﻿@model Garage3.Models.Vehicle
 
 @{
-	ViewBag.Title = "Index";
+    ViewBag.Title = "Index";
 }
 
 @section scripts {
-	<script src="~/App/manage.js"></script>
+    <script src="~/App/manage.js"></script>
 }
 <h2>Park &amp; Unpark</h2>
 <h4>Select a parking slot to park or unpark vehicles</h4>
 
 <div class="row">
-	<div data-ng-app="manage" class="col-sm-7">
-		<div data-ng-controller="manageCtrl">
-			<!--<form>
-				<div class="form-group">
-					<div class="input-group">
-						<span class="input-group-addon">RegNr/Owner:</span>
-						<input data-ng-model="searchText" class="form-control" type="search" placeholder="Type in reg nr or owner name" />
-						<button class="btn btn-primary" type="submit">Filter</button>
-					</div>
-				</div>
-			</form>-->
-			<div class="col-sm-12">
-				<button class="btn" style="width: 50px; margin: 1px" data-ng-repeat="s in slots | orderBy:'id'"
-						data-ng-class="[{'btn-default': !s.p_id, 'btn-warning': s.p_id}]"
-						data-ng-click="useSlot(s)">
-					{{ s.id }}
-				</button>
-			</div>
-			<div class="alert alert-{{ alertType }}" data-ng-show="alertMessage" style="margin-top: 10px">
-				<strong>{{ alertMessage }}</strong>
-			</div>
+    <div data-ng-app="manage" class="col-sm-7">
+        <div data-ng-controller="manageCtrl">
+            <!--<form>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">RegNr/Owner:</span>
+                        <input data-ng-model="searchText" class="form-control" type="search" placeholder="Type in reg nr or owner name" />
+                        <button class="btn btn-primary" type="submit">Filter</button>
+                    </div>
+                </div>
+            </form>-->
+            <div class="col-sm-12">
+                <button class="btn" style="width: 50px; margin: 1px" data-ng-repeat="s in slots | orderBy:'id'"
+                        data-ng-class="[{'btn-default': !s.p_id, 'btn-warning': s.p_id}]"
+                        data-ng-click="useSlot(s)"
+                        data-toggle="modal" data-target="#box">
+                    {{ s.id }}
+                </button>
+            </div>
+            <div id="box" class="modal fade" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="alert alert-{{ alertType }}" data-ng-show="alertMessage" style="margin-top: 10px">
+                                <strong>{{ alertMessage }}</strong>
+                            </div>
+                        </div>
 
-			<div data-ng-show="parking">
-				<dl class="dl-horizontal">
-					<dt>Slot:</dt>
-					<dd>{{ parking.slot_id }}</dd>
-					<dt>Reg nr:</dt>
-					<dd>{{ parking.vehicle.reg }}</dd>
-					<dt>Type:</dt>
-					<dd>{{ parking.vehicle.type.name }}</dd>
-					<dt>Owner:</dt>
-					<dd>{{ parking.vehicle.owner.name }}</dd>
-					<dt>Date in:</dt>
-					<dd>{{ parking.date_in | date:'short'}}</dd>
-					<dt>Parked for:</dt>
-					<dd>{{ parking.date_dur }}</dd>
-					<dd style="margin-top: 10px">
-						<button class="btn btn-danger" type="button" data-ng-click="unpark()">Unpark</button>
-					</dd>
-				</dl>
-			</div>
+                        <div class="modal-body">
 
-			<div data-ng-show="showRegForm">
-				<form data-ng-submit="park()" class="form-horizontal">
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="reg">Slot:</label>
-						<div class="col-sm-10">
-							<input class="form-control" type="number" name="slotId" data-ng-model="slotId" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="reg">RegNr:</label>
-						<div class="col-sm-10">
-							<input class="form-control" type="text" name="regNr" data-ng-model="regNr" />
-						</div>
-					</div>
+                            <div data-ng-show="parking">
+                                <dl class="dl-horizontal">
+                                    <dt>Slot:</dt>
+                                    <dd>{{ parking.slot_id }}</dd>
+                                    <dt>Reg nr:</dt>
+                                    <dd>{{ parking.vehicle.reg }}</dd>
+                                    <dt>Type:</dt>
+                                    <dd>{{ parking.vehicle.type.name }}</dd>
+                                    <dt>Owner:</dt>
+                                    <dd>{{ parking.vehicle.owner.name }}</dd>
+                                    <dt>Date in:</dt>
+                                    <dd>{{ parking.date_in | date:'short'}}</dd>
+                                    <dt>Parked for:</dt>
+                                    <dd>{{ parking.date_dur }}</dd>
+                                    <dd style="margin-top: 10px">
+                                        <button class="btn btn-danger" type="button" data-ng-click="unpark()">Unpark</button>
+                                    </dd>
+                                </dl>
+                            </div>
 
-					<div data-ng-show="showFullReg">
-						<div class="form-group">
-							<label class="control-label col-sm-2" for="typeId">Type:</label>
-							<div class="col-sm-10">
-								<select class="form-control" name="typeId" data-ng-model="typeId">
-									<option data-ng-repeat="vt in vehicleTypes" value="{{ vt.id }}">{{ vt.name }}</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-sm-2" for="ownerName">Owner:</label>
-							<div class="col-sm-10">
-								<input class="form-control" type="text" name="ownerName" data-ng-model="ownerName" />
-							</div>
-						</div>
-					</div>
+                            <div data-ng-show="showRegForm">
+                                <form data-ng-submit="park()" class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="reg">Slot:</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" type="number" name="slotId" data-ng-model="slotId" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" for="reg">RegNr:</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" type="text" name="regNr" data-ng-model="regNr" />
+                                        </div>
+                                    </div>
 
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<button class="btn btn-primary" type="submit">Park</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+                                    <div data-ng-show="showFullReg">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-2" for="typeId">Type:</label>
+                                            <div class="col-sm-10">
+                                                <select class="form-control" name="typeId" data-ng-model="typeId">
+                                                    <option data-ng-repeat="vt in vehicleTypes" value="{{ vt.id }}">{{ vt.name }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-2" for="ownerName">Owner:</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" type="text" name="ownerName" data-ng-model="ownerName" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button class="btn btn-primary" type="submit">Park</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

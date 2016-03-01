@@ -9,10 +9,13 @@
 			$http.get(garage.rootPath + 'Garage/Parkings').then(function (resp) {
 				var parkings = resp.data;
 				for (var i = 0; i < parkings.length; ++i) {
-					parkings[i].date_in = garage.parseMSDate(parkings[i].date_in); //fixing datetime format for js
-					parkings[i].date_out = garage.parseMSDate(parkings[i].date_out);
+				    parkings[i].date_in = garage.parseMSDate(parkings[i].date_in); //fixing datetime format for js
+				    parkings[i].date_out = garage.parseMSDate(parkings[i].date_out);
             
-					parkings[i].duration = parkings[i].date_out - parkings[i].date_in;
+				    var DateRightNow = parkings[i].date_out;
+				    if (DateRightNow==null){DateRightNow=new Date();}
+
+				    parkings[i].duration = Math.ceil((DateRightNow - parkings[i].date_in) / 1000 / 60 / 60);
 				}
 				$scope.parkings = parkings;
 			});
@@ -60,6 +63,7 @@
 		$scope.date_out = "Date Out ►";
 		$scope.slot_id = "Slot ID ▲";
 		$scope.duration = "Duration ►";
+		$scope.sekprice = "Price ►";
 
 	
 		
@@ -67,6 +71,7 @@
 		    $scope.duration = "Duration ►";
 		    $scope.date_out = "Date Out ►";
 		    $scope.slot_id = "Slot ID ►";
+		    $scope.sekprice = "Price ►";
 		    if ($scope.date_in == "Date In ▲") {
 		        $scope.sortID = "-date_in";
 		        $scope.date_in = "Date In ▼";
@@ -80,6 +85,7 @@
 		    $scope.duration = "Duration ►";
 		    $scope.date_in = "Date In ►";
 		    $scope.slot_id = "Slot ID ►";
+		    $scope.sekprice = "Price ►";
 		    if ($scope.date_out == "Date Out ▲") {
 		        $scope.sortID = "-date_out";
 		        $scope.date_out = "Date Out ▼";
@@ -93,6 +99,7 @@
 		    $scope.duration = "Duration ►";
 		    $scope.date_in = "Date In ►";
 		    $scope.date_out = "Date Out ►";
+		    $scope.sekprice = "Price ►";
 		    if ($scope.slot_id == "Slot ID ▲") {
 		        $scope.sortID = "-slot_id";
 		        $scope.slot_id = "Slot ID ▼";
@@ -106,15 +113,44 @@
 		    $scope.slot_id = "Slot ID ►";
 		    $scope.date_in = "Date In ►";
 		    $scope.date_out = "Date Out ►";
+		    $scope.sekprice = "Price ►";
 		    if ($scope.duration == "Duration ▲") {
-		        $scope.sortID = "-slot_id";
+		        $scope.sortID = "-duration";
 		        $scope.duration = "Duration ▼";
 		    }
 		    else {
-		        $scope.sortID = "slot_id";
+		        $scope.sortID = "duration";
 		        $scope.duration = "Duration ▲";
 		    }
 		}
+		$scope.OrderByPrice = function (p) {
+		    $scope.slot_id = "Slot ID ►";
+		    $scope.date_in = "Date In ►";
+		    $scope.date_out = "Date Out ►";
+		    $scope.duration = "Duration ►";
+		    if ($scope.sekprice == "Price ▲") {
+		        $scope.sortID = "-price";
+		        $scope.sekprice = "Price ▼";
+		    }
+		    else {
+		        $scope.sortID = "price";
+		        $scope.sekprice = "Price ▲";
+		    }
+		}
+		$scope.filterPrice = 20;
+
+	    $scope.price =function(p){
+	        if (angular.isNumber($scope.filterPrice) && ($scope.filterPrice != null || $scope.filterPrice != 0)) {
+	            p.price = p.duration * $scope.filterPrice;
+	            return (p.duration * $scope.filterPrice);
+	        }
+	        
+	        else {
+	            p.price = 0;
+	            return 0;
+	        }
+	    }
+		    
 
 		$http.get(garage.rootPath + 'Vehicle/Types').then(function (resp) {
 		    $scope.vehicleTypes = resp.data;

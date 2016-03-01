@@ -110,11 +110,11 @@
 		    $scope.date_in = "Date In ►";
 		    $scope.date_out = "Date Out ►";
 		    if ($scope.duration == "Duration ▲") {
-		        $scope.sortID = "-slot_id";
+		        $scope.sortID = "-duration";
 		        $scope.duration = "Duration ▼";
 		    }
 		    else {
-		        $scope.sortID = "slot_id";
+		        $scope.sortID = "duration";
 		        $scope.duration = "Duration ▲";
 		    }
 		}

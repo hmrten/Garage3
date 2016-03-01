@@ -119,13 +119,12 @@
 		    }
 		}
 
-	$scope.price =function(p){
-		    if ($scope.filterPrice != null || $scope.filterPrice != 0)
-		    {
-		   return (p.duration * $scope.filterPrice);
-		    }
-		    else { return 0; }
-	}
+	    $scope.price =function(p){
+	            if (angular.isNumber($scope.filterPrice) && ($scope.filterPrice != null || $scope.filterPrice != 0)) {
+	                return (p.duration * $scope.filterPrice)
+	        }
+	        else { return 0; }
+	    }
 		    
 
 		$http.get(garage.rootPath + 'Vehicle/Types').then(function (resp) {

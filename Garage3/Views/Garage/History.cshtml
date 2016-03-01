@@ -45,8 +45,23 @@
                             </div>
                         </div>
                     </div>
-                    <input type="checkbox" ng-model="showTrueDur" /> Display exact duration
-                    <input type="checkbox" ng-model="showDurPri" /> Display duration and price
+                    <div class="clear">
+                        <div class="col-sm-8">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="showTrueDur" ng-model="showTrueDur" />
+                                    Show exact duration
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="showTrueDur" ng-model="showDurPri" />
+                                    Show duration and price
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
                     <table class="table table-condensed">
                         <thead>
                             <tr>
@@ -70,7 +85,7 @@
                                 <td>{{ p.date_in | date:'short' }}</td>
                                 <td>{{ p.date_out | date:'short' }}</td>
                                 <td ng-show="showTrueDur">{{p.trueDuration}}</td>
-                                <td ng-show ="showDurPri">{{ p.duration }}</td>
+                                <td ng-show="showDurPri">{{ p.duration }}</td>
                                 <td ng-show="showDurPri">{{ price(p) }}</td>
                                 <td>{{ p.vehicle.reg}}</td>
                                 <td>{{ p.vehicle.type.name }}</td>

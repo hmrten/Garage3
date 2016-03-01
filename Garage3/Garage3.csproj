@@ -931,6 +931,7 @@
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Garage\History.cshtml" />
     <Content Include="Views\Garage\Index.cshtml" />
+    <Content Include="Views\Garage\Api.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

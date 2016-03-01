@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Api";
+}
+
+<h2>Api</h2>
+
+<div class="row" data-ng-app="api">
+    <div class="col-sm-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title">Vehicles</h4>
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li><a href="~/Vehicle/List">List</a> (id)</li>
+                    <li><a href="~/Vehicle/ByRegNr">ByRegNr</a> (reg</li>
+                    <li><a href="~/Vehicle/ByType/1">ByType</a> (id)</li>
+                    <li><a href="~/Vehicle/ByOwner/1">ByOwner</a> (id)</li>
+                    <li><a href="~/Vehicle/Types">Types</a> (id)</li>
+                    <li><a href="~/Vehicle/Owners">Owners</a> (id)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title">Garage</h4>
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li><a href="~/Garage/Slots">Slots</a> (id)</li>
+                    <li><a href="~/Garage/Parkings">Parkings</a> (id)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

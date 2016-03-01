@@ -43,6 +43,11 @@ namespace Garage3.Controllers
 			return View();
 		}
 
+        public ActionResult Api()
+        {
+            return View();
+        }
+
 		private bool IsParked(string regNr)
 		{
 			var v = from p in db.Parkings

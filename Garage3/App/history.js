@@ -131,6 +131,8 @@
 	            return 0;
 	        }
 	    }
+
+        
 		    
 		$scope.typeFilterOn = function (p) {
 		    if ($scope.typeId == -1 || $scope.typeId == null) { return true; }

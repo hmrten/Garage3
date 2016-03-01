@@ -24,6 +24,7 @@
                         var d = parkings[i].date_out;
                         if (d == null) { d = new Date(); }
                         parkings[i].duration = Math.ceil((d - parkings[i].date_in) / 1000 / 60 / 60);
+                        parkings[i].trueDuration = g.getDurationString(parkings[i].date_out, parkings[i].date_in);
                     }
                 }
                 fn(parkings);

@@ -96,6 +96,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="DB Gfx Model\g2db.png" />
+    <Content Include="DB Gfx Model\g3db.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Graphics\post-74607-0-43142200-1366894842.jpg" />

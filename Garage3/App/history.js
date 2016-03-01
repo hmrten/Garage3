@@ -1,30 +1,21 @@
 ﻿(function () {
 	var app = angular.module('history', ['base']);
 
-	app.controller('historyCtrl', function ($scope, $http) {
+	app.controller('historyCtrl', function ($scope, $http, garageService) {
+		function init() {
+		    $scope.sortID = "id";
+		    $scope.date_in = "Date In ►";
+		    $scope.date_out = "Date Out ►";
+		    $scope.slot_id = "Slot ID ▲";
+		    $scope.duration = "Duration ►";
 
-		$scope.parkings = [];
+		    $scope.filterPrice = 20;
 
-		function getParkings() {
-			$http.get(garage.rootPath + 'Garage/Parkings').then(function (resp) {
-				var parkings = resp.data;
-				for (var i = 0; i < parkings.length; ++i) {
-				    parkings[i].date_in = garage.parseMSDate(parkings[i].date_in); //fixing datetime format for js
-				    parkings[i].date_out = garage.parseMSDate(parkings[i].date_out);
-            
-				    var DateRightNow = parkings[i].date_out;
-				    if (DateRightNow==null){DateRightNow=new Date();}
+		    garageService.getParkings(false, null, function (parkings) { $scope.parkings = parkings; });
+		    garageService.getTypes(function (types) { $scope.vehicleTypes = types; });
+		}
 
-				    parkings[i].duration = Math.ceil((DateRightNow - parkings[i].date_in) / 1000 / 60 / 60);
-				}
-				$scope.parkings = parkings;
-			});
-		};
-
-
-		getParkings();
-
-		$scope.msg = 'Parking History! View data only!';
+		init();
 
 		$scope.filterReg = function (p) {
 		    var s1 = $scope.filterResults;
@@ -56,15 +47,6 @@
 		        return false;
 		    }
 		}
-
-		$scope.sortID = "id";
-	
-		$scope.date_in = "Date In ►";
-		$scope.date_out = "Date Out ►";
-		$scope.slot_id = "Slot ID ▲";
-		$scope.duration = "Duration ►";
-
-	
 		
 		$scope.OrderByDIn = function (p) {
 		    $scope.duration = "Duration ►";
@@ -119,19 +101,12 @@
 		    }
 		}
 
-		$scope.filterPrice = 20;
-
-	    $scope.price =function(p){
-	            if (angular.isNumber($scope.filterPrice) && ($scope.filterPrice != null || $scope.filterPrice != 0)) {
+		$scope.price = function (p) {
+		    if (angular.isNumber($scope.filterPrice) && ($scope.filterPrice != null || $scope.filterPrice != 0)) {
 	                return (p.duration * $scope.filterPrice)
-	        }
-	        else { return 0; }
+		    }
+		    return 0;
 	    }
-		    
-
-		$http.get(garage.rootPath + 'Vehicle/Types').then(function (resp) {
-		    $scope.vehicleTypes = resp.data;
-		});
 
 		$scope.typeFilterOn = function (p) {
 		    if ($scope.typeId == -1 || $scope.typeId == null) { return true; }

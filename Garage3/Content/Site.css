@@ -94,3 +94,18 @@ th.HoverHand:hover {
 {
     display:inline;
 }
+
+.btn-default:hover {
+    box-shadow: inset 0 0 10px 0 darkcyan;
+    transform: scale(1.3, 1.3);
+}
+
+.btn-warning:hover {
+    box-shadow: inset 0 0 10px 0 red;
+    transform: scale(1.3, 1.3);
+}
+
+
+.btn {
+    transition: ease-in-out .05s;
+}

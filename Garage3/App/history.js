@@ -9,10 +9,13 @@
 			$http.get(garage.rootPath + 'Garage/Parkings').then(function (resp) {
 				var parkings = resp.data;
 				for (var i = 0; i < parkings.length; ++i) {
-					parkings[i].date_in = garage.parseMSDate(parkings[i].date_in); //fixing datetime format for js
-					parkings[i].date_out = garage.parseMSDate(parkings[i].date_out);
+				    parkings[i].date_in = garage.parseMSDate(parkings[i].date_in); //fixing datetime format for js
+				    parkings[i].date_out = garage.parseMSDate(parkings[i].date_out);
             
-					parkings[i].duration = parkings[i].date_out - parkings[i].date_in;
+				    var DateRightNow = parkings[i].date_out;
+				    if (DateRightNow==null){DateRightNow=new Date();}
+
+				    parkings[i].duration = Math.ceil((DateRightNow - parkings[i].date_in) / 1000 / 60 / 60);
 				}
 				$scope.parkings = parkings;
 			});
@@ -115,6 +118,16 @@
 		        $scope.duration = "Duration ▲";
 		    }
 		}
+
+		$scope.filterPrice = 20;
+
+	    $scope.price =function(p){
+	            if (angular.isNumber($scope.filterPrice) && ($scope.filterPrice != null || $scope.filterPrice != 0)) {
+	                return (p.duration * $scope.filterPrice)
+	        }
+	        else { return 0; }
+	    }
+		    
 
 		$http.get(garage.rootPath + 'Vehicle/Types').then(function (resp) {
 		    $scope.vehicleTypes = resp.data;

@@ -25,12 +25,6 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="input-group">
-                                <span class="input-group-addon widthFix">Owner</span>
-                                <input data-ng-model="filterResultsOwn" class="form-control input-group" type="search" placeholder="Type in owner name" />
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="input-group">
                                 <span class="input-group-addon widthFix">Type</span>
                                 <select class="form-control" name="typeId" data-ng-model="typeId">
                                     <option selected value="-1">Show All Types</option>
@@ -38,37 +32,50 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-sm-4 clear">
+                            <div class="input-group">
+                                <span class="input-group-addon widthFix">Owner</span>
+                                <input data-ng-model="filterResultsOwn" class="form-control input-group" type="search" placeholder="Type in owner name" />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon widthFix">Price</span>
+                                <input data-ng-model="filterPrice" class="form-control" type="number" placeholder="Type in price per hour" />
+                            </div>
+                        </div>
                     </div>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+
+                                <th class="HoverHand" ng-click="OrderBySID(sortID)">{{slot_id}}</th>
+                                <th class="HoverHand" ng-click="OrderByDIn(sortID)">{{date_in}}</th>
+                                <th class="HoverHand" ng-click="OrderByDOut(sortID)">{{date_out}}</th>
+                                <th class="HoverHand" ng-click="OrderByDur(sortID)">{{duration}} (h)</th>
+                                <th>Price Calculation</th>
+                                <th>Registration number</th>
+                                <th>Vehicle Type</th>
+                                <th>Vehicle Owner</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="p in parkings | filter:filterReg | filter:filterOwner | filter:typeFilterOn |orderBy:sortID">
+
+                                <td>{{ p.slot_id }}</td>
+                                <td>{{ p.date_in | date:'short' }}</td>
+                                <td>{{ p.date_out | date:'short' }}</td>
+                                <td>{{ p.duration }}</td>
+                                <td>{{ price(p) }}</td>
+                                <td>{{ p.vehicle.reg}}</td>
+                                <td>{{ p.vehicle.type.name }}</td>
+                                <td>{{ p.vehicle.owner.name}}</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-
-                <table class="table table-condensed">
-                    <thead>
-                        <tr>
-
-                            <th class="HoverHand" ng-click="OrderBySID(sortID)">{{slot_id}}</th>
-                            <th class="HoverHand" ng-click="OrderByDIn(sortID)">{{date_in}}</th>
-                            <th class="HoverHand" ng-click="OrderByDOut(sortID)">{{date_out}}</th>
-                            <th class="HoverHand" ng-click="OrderByDur(sortID)">{{duration}}</th>
-                            <th>Registration number</th>
-                            <th>Vehicle Type</th>
-                            <th>Vehicle Owner</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr data-ng-repeat="p in parkings | filter:filterReg | filter:filterOwner | filter:typeFilterOn |orderBy:sortID">
-
-                            <td>{{ p.slot_id }}</td>
-                            <td>{{ p.date_in | date:'short' }}</td>
-                            <td>{{ p.date_out | date:'short' }}</td>
-                            <td>{{p.duration | date:'HH:mm:ss'}}</td>
-                            <td>{{ p.vehicle.reg}}</td>
-                            <td>{{ p.vehicle.type.name }}</td>
-                            <td>{{ p.vehicle.owner.name}}</td>
-
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>

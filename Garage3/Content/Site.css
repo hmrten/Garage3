@@ -67,7 +67,7 @@ th.HoverHand:hover {
     background-color:black;
     border:solid;
     border-top:none;
-    border-color:gray;
+    border-color:#eee;
 }
 .jumbotron h1 
 {

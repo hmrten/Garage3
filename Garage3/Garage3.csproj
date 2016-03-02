@@ -904,6 +904,7 @@
     <Compile Include="DataAccess\GarageRepository.cs" />
     <Compile Include="DataAccess\IGarageRepository.cs" />
     <Compile Include="DataAccess\Selectors.cs" />
+    <Compile Include="DataAccess\TestRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

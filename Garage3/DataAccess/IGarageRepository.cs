@@ -8,6 +8,13 @@ using System.Web.Mvc;
 
 namespace Garage3.DataAccess
 {
+    public enum ParkResult
+    {
+        Success,
+        AlreadyParked,
+        NeedRegister
+    }
+
     interface IGarageRepository : IDisposable
     {
         IEnumerable<ParkingSlot> GetParkingSlots();
@@ -19,7 +26,7 @@ namespace Garage3.DataAccess
         IEnumerable<Vehicle> GetVehiclesByOwner(int ownerId);
         Vehicle FindVehicleByRegNr(string regNr);
         bool RegNrIsParked(string regNr);
-        HttpStatusCodeResult Park(int slotId, string regNr, int? typeId, string ownerName);
-        HttpStatusCodeResult Unpark(int vehicleId);
+        ParkResult Park(int slotId, string regNr, int? typeId, string ownerName);
+        string Unpark(int parkingId);
     }
 }

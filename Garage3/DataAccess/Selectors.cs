@@ -33,6 +33,12 @@ namespace Garage3.DataAccess
             name = t.Name
         };
 
+        public static Func<ParkingSlot, object> ParkingSlotSelector = ps => new
+        {
+            id = ps.Id,
+            p_id = ps.ParkingId
+        };
+
         public static Func<Parking, object> ParkingSelector = p => new
         {
             id = p.Id,

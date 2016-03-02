@@ -82,8 +82,9 @@ namespace Garage3.Controllers
 		// Get all vehicles with a specific type (by id)
         public ActionResult ByType(int id)
         {
-            var vs = db.Vehicles
-                .Where(v => v.VehicleTypeId == id)
+            var vs = db.VehicleTypes
+                .Find(id)
+                .Vehicles
                 .Select(VehicleSelector);
             return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
         }

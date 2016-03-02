@@ -13,5 +13,12 @@ namespace Garage3.Models
 
         [Required, StringLength(64)]
         public string Name { get; set; }
+
+        public virtual ICollection<Vehicle> Vehicles { get; set; }
+
+        public VehicleType()
+        {
+            Vehicles = new List<Vehicle>();
+        }
     }
 }

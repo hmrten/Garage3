@@ -12,7 +12,7 @@ namespace Garage3.Models
         [Key]
         public int Id { get; set; }
 
-        [Required, StringLength(32)]
+        [Required, StringLength(32), Index(IsUnique=true)]
         public string RegNr { get; set; }
 
         [Required]

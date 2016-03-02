@@ -908,6 +908,10 @@
     <Compile Include="Migrations\201602271706174_v1.Designer.cs">
       <DependentUpon>201602271706174_v1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603021215150_v2.cs" />
+    <Compile Include="Migrations\201603021215150_v2.Designer.cs">
+      <DependentUpon>201603021215150_v2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Owner.cs" />
     <Compile Include="Models\Parking.cs" />
@@ -945,6 +949,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201602271706174_v1.resx">
       <DependentUpon>201602271706174_v1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603021215150_v2.resx">
+      <DependentUpon>201603021215150_v2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -12,14 +12,17 @@ namespace Garage3.Controllers
 
     public class VehicleController : Controller
     {
-        private GarageContext db = new GarageContext();
+        private IGarageRepository repo;
 
-
+        public VehicleController()
+        {
+            repo = new GarageRepository(new GarageContext());
+        }
 
 		// return an array of vehicles, optionally filtered by id
         public JsonResult List(int? id)
         {
-            var q = db.Vehicles.AsQueryable();
+            var q = repo.GetVehicles();
             if (id != null)
                 q = q.Where(v => v.Id == id);
             var vs = q.Select(Selectors.VehicleSelector);
@@ -29,7 +32,7 @@ namespace Garage3.Controllers
 		// return an array of owners, optionally filtered by id
         public JsonResult Owners(int? id)
         {
-            var q = db.Owners.AsQueryable();
+            var q = repo.GetOwners();
             if (id != null)
                 q = q.Where(o => o.Id == id);
             var os = q.Select(Selectors.OwnerSelector);
@@ -40,7 +43,7 @@ namespace Garage3.Controllers
 		// can use this to populate drop down list
         public JsonResult Types(int? id)
         {
-            var q = db.VehicleTypes.AsQueryable();
+            var q = repo.GetVehicleTypes();
             if (id != null)
                 q = q.Where(t => t.Id == id);
             var ts = q.Select(Selectors.VehicleTypeSelector);
@@ -50,29 +53,21 @@ namespace Garage3.Controllers
 		// Lookup a vehicle by RegNr
         public JsonResult ByRegNr(string id)
         {
-            var vs = db.Vehicles
-                .Where(v => String.Compare(v.RegNr, id, true) == 0)
-                .Select(Selectors.VehicleSelector);
+            var vs = repo.FindVehicleByRegNr(id).Select(Selectors.VehicleSelector);
             return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
         }
 
 		// Get all vehicles with a specific type (by id)
         public JsonResult ByType(int id)
         {
-            var vs = db.VehicleTypes
-                .Find(id)
-                .Vehicles
-                .Select(Selectors.VehicleSelector);
+            var vs = repo.GetVehiclesByType(id).Select(Selectors.VehicleSelector);
             return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
         }
 
 		// get all vehicles owner by ownerId
         public JsonResult ByOwner(int id)
         {
-            var os = db.Owners
-                .Find(id)
-                .Vehicles
-                .Select(Selectors.VehicleSelector);
+            var os = repo.GetVehiclesByOwner(id).Select(Selectors.VehicleSelector);
             return Json(os.ToList(), JsonRequestBehavior.AllowGet);
         }
     }

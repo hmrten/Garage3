@@ -24,7 +24,7 @@ namespace Garage3.DataAccess
         IEnumerable<Vehicle> GetVehicles();
         IEnumerable<Vehicle> GetVehiclesByType(int typeId);
         IEnumerable<Vehicle> GetVehiclesByOwner(int ownerId);
-        Vehicle FindVehicleByRegNr(string regNr);
+        IEnumerable<Vehicle> FindVehicleByRegNr(string regNr);
         bool RegNrIsParked(string regNr);
         ParkResult Park(int slotId, string regNr, int? typeId, string ownerName);
         string Unpark(int parkingId);

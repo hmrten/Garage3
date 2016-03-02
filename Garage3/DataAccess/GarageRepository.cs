@@ -42,32 +42,32 @@ namespace Garage3.DataAccess
 
         public IEnumerable<Models.Owner> GetOwners()
         {
-            throw new NotImplementedException();
+            return ctx.Owners;
         }
 
         public IEnumerable<Models.VehicleType> GetVehicleTypes()
         {
-            throw new NotImplementedException();
+            return ctx.VehicleTypes;
         }
 
         public IEnumerable<Models.Vehicle> GetVehicles()
         {
-            throw new NotImplementedException();
+            return ctx.Vehicles;
         }
 
         public IEnumerable<Models.Vehicle> GetVehiclesByType(int typeId)
         {
-            throw new NotImplementedException();
+            return ctx.VehicleTypes.Find(typeId).Vehicles;
         }
 
         public IEnumerable<Models.Vehicle> GetVehiclesByOwner(int ownerId)
         {
-            throw new NotImplementedException();
+            return ctx.Owners.Find(ownerId).Vehicles;
         }
 
-        public Models.Vehicle FindVehicleByRegNr(string regNr)
+        public IEnumerable<Vehicle> FindVehicleByRegNr(string regNr)
         {
-            throw new NotImplementedException();
+            return ctx.Vehicles.Where(v => String.Compare(v.RegNr, regNr, true) == 0);
         }
 
         public bool RegNrIsParked(string regNr)
@@ -86,40 +86,25 @@ namespace Garage3.DataAccess
             var v = ctx.Vehicles.Where(x => String.Compare(x.RegNr, regNr, true) == 0).SingleOrDefault();
             if (v == null)
             {
-                // If not, lets try and register one
-                // First time from the angular form typeId and ownerName will be null
-                // so ow we should return with a 404 to indicate that
-                // angular should show a form to register a new vehicle
                 if (typeId == null && ownerName == null)
-                {
                     return ParkResult.NeedRegister;
-                    //return HttpNotFound("no vehicle with reg nr: " + regNr + " found");
-                }
 
-                // otherwise, typeId and ownerName was filled in
-                // which mean this request came from the full form
-                // so now it's time to hook up a new vehicle and owner
-
-                // Check if an owner already exists
                 // TODO: this assumes names are unique, would probably need something better
                 //       for a real application.
                 var o = ctx.Owners.Where(x => String.Compare(x.Name, ownerName, true) == 0).SingleOrDefault();
                 if (o == null)
                 {
-                    // if no owner found with that name, time to add a new one
                     o = ctx.Owners.Add(new Owner { Name = ownerName });
                     ctx.SaveChanges();
                 }
 
                 // TODO: validate typeId
-                // Add a new vehicle.
                 v = ctx.Vehicles.Add(new Vehicle { RegNr = regNr, OwnerId = o.Id, VehicleTypeId = typeId.Value });
                 ctx.SaveChanges();
             }
 
             if (RegNrIsParked(regNr))
                 return ParkResult.AlreadyParked;
-                //return new HttpStatusCodeResult(400, regNr + " is already parked");
 
             // now we've set up an owner and a vehicle, so now it's time to park it.
             var p = ctx.Parkings.Add(new Parking { DateIn = DateTime.Now, DateOut = null, ParkingSlotId = slotId, VehicleId = v.Id });

@@ -118,7 +118,7 @@ namespace Garage3.Controllers
 		// is updating ParkingSlots and Parkings with new values
 		// (namely setting ParkingId to null in slots and setting DateOut in Parkings)
 		[HttpPut]
-		public ActionResult Unpark(int id)
+		public HttpStatusCodeResult Unpark(int id)
 		{
 			var p = db.Parkings.Find(id);
 			p.DateOut = DateTime.Now;
@@ -129,7 +129,7 @@ namespace Garage3.Controllers
 		}
 
 		// API: return an array of the slots in json format
-        public ActionResult Slots(int? id)
+        public JsonResult Slots(int? id)
         {
             var q = db.ParkingSlots.AsQueryable();
 			if (id != null)
@@ -139,7 +139,7 @@ namespace Garage3.Controllers
         }
 
 		// API: return an array of parkings in json format
-        public ActionResult Parkings(int? id)
+        public JsonResult Parkings(int? id)
         {
             var q = db.Parkings.AsQueryable();
             if (id != null)

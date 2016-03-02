@@ -40,7 +40,7 @@ namespace Garage3.Controllers
         };
 
 		// return an array of vehicles, optionally filtered by id
-        public ActionResult List(int? id)
+        public JsonResult List(int? id)
         {
             var q = db.Vehicles.AsQueryable();
             if (id != null)
@@ -50,7 +50,7 @@ namespace Garage3.Controllers
         }
 
 		// return an array of owners, optionally filtered by id
-        public ActionResult Owners(int? id)
+        public JsonResult Owners(int? id)
         {
             var q = db.Owners.AsQueryable();
             if (id != null)
@@ -61,7 +61,7 @@ namespace Garage3.Controllers
 
 		// return an array of vehicle types, optionally filtered by id
 		// can use this to populate drop down list
-        public ActionResult Types(int? id)
+        public JsonResult Types(int? id)
         {
             var q = db.VehicleTypes.AsQueryable();
             if (id != null)
@@ -71,7 +71,7 @@ namespace Garage3.Controllers
         }
 
 		// Lookup a vehicle by RegNr
-        public ActionResult ByRegNr(string id)
+        public JsonResult ByRegNr(string id)
         {
             var vs = db.Vehicles
                 .Where(v => String.Compare(v.RegNr, id, true) == 0)
@@ -80,7 +80,7 @@ namespace Garage3.Controllers
         }
 
 		// Get all vehicles with a specific type (by id)
-        public ActionResult ByType(int id)
+        public JsonResult ByType(int id)
         {
             var vs = db.VehicleTypes
                 .Find(id)
@@ -90,7 +90,7 @@ namespace Garage3.Controllers
         }
 
 		// get all vehicles owner by ownerId
-        public ActionResult ByOwner(int id)
+        public JsonResult ByOwner(int id)
         {
             var os = db.Owners
                 .Where(o => o.Id == id)

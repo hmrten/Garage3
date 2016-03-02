@@ -14,30 +14,7 @@ namespace Garage3.Controllers
     {
         private GarageContext db = new GarageContext();
 
-        // A couple helper projection functions for the Json serializer which
-        // cannot deal with circular depdencies between models.
-        // So we project them manually, which also serves as having
-        // better control over the json object field names
 
-		private Func<Vehicle, object> VehicleSelector = v => new
-		{
-			id = v.Id,
-			reg = v.RegNr,
-			type = new { id = v.Type.Id, name = v.Type.Name },
-			owner = new { id = v.OwnerId, name = v.Owner.Name }
-		};
-
-        private Func<Owner, object> OwnerSelector = o => new
-        {
-            id = o.Id,
-            name = o.Name,
-        };
-
-        private Func<VehicleType, object> VehicleTypeSelector = t => new
-        {
-            id = t.Id,
-            name = t.Name
-        };
 
 		// return an array of vehicles, optionally filtered by id
         public JsonResult List(int? id)
@@ -45,7 +22,7 @@ namespace Garage3.Controllers
             var q = db.Vehicles.AsQueryable();
             if (id != null)
                 q = q.Where(v => v.Id == id);
-            var vs = q.Select(VehicleSelector);
+            var vs = q.Select(Selectors.VehicleSelector);
             return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -55,7 +32,7 @@ namespace Garage3.Controllers
             var q = db.Owners.AsQueryable();
             if (id != null)
                 q = q.Where(o => o.Id == id);
-            var os = q.Select(OwnerSelector);
+            var os = q.Select(Selectors.OwnerSelector);
             return Json(os.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -66,7 +43,7 @@ namespace Garage3.Controllers
             var q = db.VehicleTypes.AsQueryable();
             if (id != null)
                 q = q.Where(t => t.Id == id);
-            var ts = q.Select(VehicleTypeSelector);
+            var ts = q.Select(Selectors.VehicleTypeSelector);
             return Json(ts.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -75,7 +52,7 @@ namespace Garage3.Controllers
         {
             var vs = db.Vehicles
                 .Where(v => String.Compare(v.RegNr, id, true) == 0)
-                .Select(VehicleSelector);
+                .Select(Selectors.VehicleSelector);
             return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -85,7 +62,7 @@ namespace Garage3.Controllers
             var vs = db.VehicleTypes
                 .Find(id)
                 .Vehicles
-                .Select(VehicleSelector);
+                .Select(Selectors.VehicleSelector);
             return Json(vs.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -93,10 +70,9 @@ namespace Garage3.Controllers
         public JsonResult ByOwner(int id)
         {
             var os = db.Owners
-                .Where(o => o.Id == id)
-                .SingleOrDefault()
+                .Find(id)
                 .Vehicles
-                .Select(VehicleSelector);
+                .Select(Selectors.VehicleSelector);
             return Json(os.ToList(), JsonRequestBehavior.AllowGet);
         }
     }

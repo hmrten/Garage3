@@ -12,21 +12,6 @@ namespace Garage3.Controllers
     {
         private GarageContext db = new GarageContext();
 
-		private Func<Parking, object> ParkingSelector = p => new
-		{
-			id = p.Id,
-			slot_id = p.ParkingSlotId,
-			date_in = p.DateIn,
-			date_out = p.DateOut,
-			vehicle = new
-			{
-				id = p.Vehicle.Id,
-				reg = p.Vehicle.RegNr,
-				type = new { id = p.Vehicle.Type.Id, name = p.Vehicle.Type.Name },
-				owner = new { id = p.Vehicle.OwnerId, name = p.Vehicle.Owner.Name }
-			}
-		};
-
 		public ActionResult Index()
 		{
 			return View();
@@ -144,7 +129,7 @@ namespace Garage3.Controllers
             var q = db.Parkings.AsQueryable();
             if (id != null)
                 q = q.Where(p => p.Id == id);
-			var ps = q.Select(ParkingSelector);
+			var ps = q.Select(Selectors.ParkingSelector);
             return Json(ps.ToList(), JsonRequestBehavior.AllowGet);
         }
     }

@@ -14,6 +14,15 @@ namespace Garage3.DataAccess
         public List<ParkingSlot> ParkingSlots { get; set; }
         public List<Parking> Parkings { get; set; }
 
+		public TestRepository()
+		{
+			Owners = new List<Owner>();
+			VehicleTypes = new List<VehicleType>();
+			Vehicles = new List<Vehicle>();
+			ParkingSlots = new List<ParkingSlot>();
+			Parkings = new List<Parking>();
+		}
+
         public IEnumerable<Models.ParkingSlot> GetParkingSlots()
         {
             return ParkingSlots;

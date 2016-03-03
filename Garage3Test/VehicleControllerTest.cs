@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Garage3.Controllers;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Garage3.DataAccess;
+using Garage3.Models;
 
 namespace Garage3Test
 {
@@ -52,5 +54,27 @@ namespace Garage3Test
                 Assert.AreEqual("DDD555", actual[8].reg);
             }
         }
+
+		//testrepoexample
+		[TestMethod]
+		public void testExample()
+		{
+			var testxmplRepo = new TestRepository();
+			testxmplRepo.VehicleTypes.Add(new VehicleType
+			{
+				Id = 1,
+				Name = "Car",
+				Vehicles=null
+			});
+
+			VehicleController vc = new VehicleController(testxmplRepo);
+
+			var vtlistxmpl = vc.Types(null).Data as List<dynamic>;
+
+			
+
+			Assert.AreEqual("Car", vtlistxmpl[0].name);
+		}
+
     }
 }

@@ -17,6 +17,11 @@ namespace Garage3.Controllers
             repo = new GarageRepository(new GarageContext());
         }
 
+        public GarageController(IGarageRepository repo)
+        {
+            this.repo = repo;
+        }
+
         public ViewResult Index()
 		{
 			return View();
@@ -79,6 +84,12 @@ namespace Garage3.Controllers
                 q = q.Where(p => p.Id == id);
 			var ps = q.Select(Selectors.ParkingSelector);
             return Json(ps.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            repo.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

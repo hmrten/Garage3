@@ -19,6 +19,11 @@ namespace Garage3.Controllers
             repo = new GarageRepository(new GarageContext());
         }
 
+        public VehicleController(IGarageRepository repo)
+        {
+            this.repo = repo;
+        }
+
 		// return an array of vehicles, optionally filtered by id
         public JsonResult List(int? id)
         {
@@ -69,6 +74,12 @@ namespace Garage3.Controllers
         {
             var os = repo.GetVehiclesByOwner(id).Select(Selectors.VehicleSelector);
             return Json(os.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            repo.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

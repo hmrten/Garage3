@@ -15,7 +15,7 @@ namespace Garage3.DataAccess
         NeedRegister
     }
 
-    interface IGarageRepository : IDisposable
+    public interface IGarageRepository : IDisposable
     {
         IEnumerable<ParkingSlot> GetParkingSlots();
         IEnumerable<Parking> GetParkings();
